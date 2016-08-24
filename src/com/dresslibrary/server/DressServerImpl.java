@@ -1,5 +1,6 @@
 package com.dresslibrary.server;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,11 +14,24 @@ import com.dresslibrary.client.service.DressService;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+import MySQLDatabase.DBConnection;
+
 public class DressServerImpl extends RemoteServiceServlet implements DressService{
+	DBConnection con = new DBConnection();
+	
 
 	Map<Integer, String> idPathMap;
 	@Override
 	public String welcome(String name) {
+		try {
+			con.connectToDB();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
 		return "Välkommen till Dress Library  " + name +"!"; 
 	}
 
