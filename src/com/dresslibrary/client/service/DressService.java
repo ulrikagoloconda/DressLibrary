@@ -12,11 +12,12 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("dresservice")
 public interface DressService extends RemoteService {
- String welcome(String name);
  int calcualte(int num1, int num2);
  DressInfo getDressInfo(int imageID);
  DressImages getDressImages();
-LibraryUser getUserInfo(String name);
 DressCategory getAllCategories();
 DressImages getSelectedDressImages(String s);
+LibraryUser logIn(String userName, String password);
+LibraryUser createNewUser(LibraryUser lu, String text);
+
 }

@@ -2,6 +2,7 @@ package com.dresslibrary.client.service;
 
 import java.util.ArrayList;
 
+import com.dresslibrary.client.gui.CreateUserGui;
 import com.dresslibrary.client.gui.DressGui;
 import com.dresslibrary.client.model.DressCategory;
 import com.dresslibrary.client.model.DressImages;
@@ -11,10 +12,12 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
+import com.google.gwt.user.client.ui.Widget;
 
 public class DressServiceClientImpl implements DressServiceClient{
 	private DressServiceAsync service; 
 	private DressGui gui; 
+	private CreateUserGui newUserGui; 
 
 	public DressServiceClientImpl(String url){
 		System.out.println("Url: " + url);
@@ -22,19 +25,12 @@ public class DressServiceClientImpl implements DressServiceClient{
 		ServiceDefTarget endPoint = (ServiceDefTarget) this.service; 
 		endPoint.setServiceEntryPoint(url);
 		gui = new DressGui(this);
+		newUserGui = new CreateUserGui(this);
 	}
 
-	@Override
-	public void welcome(String name) {
-		this.service.welcome(name, new DressCallback());
-
+	public DressServiceClientImpl(){
+		
 	}
-
-	@Override
-	public void calcualte(int num1, int num2) {
-		this.service.calcualte(num1, num2, new DressCallback());
-	}
-
 
 	@Override
 	public void getDressInfo(int imageID) {
@@ -46,11 +42,6 @@ public class DressServiceClientImpl implements DressServiceClient{
 	public void getDressImages() {
 		this.service.getDressImages(new DressCallback());
 
-	}
-
-
-	public void getUserInfo(String currentUser) {
-		this.service.getUserInfo(currentUser, new DressCallback());
 	}
 
 	public DressGui getGui(){
@@ -65,6 +56,48 @@ public class DressServiceClientImpl implements DressServiceClient{
 
 	public void getSelectedDressImages(String s) {
 		this.service.getSelectedDressImages(s, new DressCallback());
+	}
+	
+	public Widget getCreateNewUserGui() {
+		return newUserGui;
+	}
+	
+	public void createNewUser(LibraryUser lu, String text) {
+		this.service.createNewUser(lu, text, new AsyncCallback(){
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Något har gått fel, error error");
+				
+			}
+
+			@Override
+			public void onSuccess(Object result) {
+				LibraryUser lu = (LibraryUser) result; 
+				newUserGui.displayNewUser(lu);
+			}
+			
+		});
+	}
+	
+	public void login(String userName, String password) {
+		this.service.logIn(userName, password, new AsyncCallback(){
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Något har gått fel, error error");
+				
+			}
+
+			@Override
+			public void onSuccess(Object result) {
+				LibraryUser lu = (LibraryUser) result;
+				gui.displayLoginInfo(lu);
+				
+			}
+			
+		});
+		
 	}
 
 	private class DressCallback implements AsyncCallback {
@@ -96,6 +129,12 @@ public class DressServiceClientImpl implements DressServiceClient{
 		}
 
 	}
+
+	
+
+	
+
+	
 
 
 }

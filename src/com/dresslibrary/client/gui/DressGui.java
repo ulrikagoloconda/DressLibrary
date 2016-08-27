@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.dresslibrary.client.DressLibrary;
 import com.dresslibrary.client.model.DressCategory;
 import com.dresslibrary.client.model.DressImages;
 import com.dresslibrary.client.model.DressInfo;
@@ -19,6 +20,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -27,7 +29,7 @@ public class DressGui extends Composite{
 	private VerticalPanel vPanel;
 	private Label loginInfo;
 	private TextBox textBox;
-	private Button btn1;
+	private Button loginButton;
 	private Button imagesButton;
 	private Label messageLabel;
 	private Label calcLabel;
@@ -48,7 +50,10 @@ public class DressGui extends Composite{
 	private TextBox searchBox;
 	private Button searchButton;
 	private Label searchInfoLabel;
-
+	private PasswordTextBox password; 
+	private Label passwordLabel; 
+	private Button newUser; 
+	
 	public DressGui(DressServiceClientImpl dressServiceClientImpl){
 		initGui();
 		initWidget(this.vPanel);
@@ -56,34 +61,40 @@ public class DressGui extends Composite{
 
 
 		vPanel.add(loginPanel);
-		vPanel.add(btn1);
+		vPanel.add(loginButton);
+		vPanel.add(newUser);
 		vPanel.add(searchPanel);
 		vPanel.add(imagePanel);
 		vPanel.add(dressInfoLabel);
 
-		btn1.addClickHandler(new ButtonHandler());
+		loginButton.addClickHandler(new LoginButtonHandler());
 		imagesButton.addClickHandler(new ImagesButtonHandler());
 		getButton.addClickHandler(new LendHandler());
 		searchButton.addClickHandler(new SearchHandler());
+		newUser.addClickHandler(new NewUserHandler() );
 
 
 
-		btn1.setStyleName("buttonClass");
+		loginButton.setStyleName("buttonClass");
 		getButton.setStyleName("buttonClass");
 		imagesButton.setStyleName("buttonClass");
 		loginInfo.setStyleName("overallText");
 		messageLabel.setStyleName("overallText");
 		textBox.setStyleName("textBox");
+		password.setStyleName("textBox");
 		searchBox.setStyleName("textBox");
 		dressInfoLabel.setStyleName("overallText");
 		userLabel.setStyleName("overallText");
 		searchButton.setStyleName("buttonClass");
 		searchLabel.setStyleName("overallText");
 		searchInfoLabel.setStyleName("overallText");
+		passwordLabel.setStyleName("overallText");
 
 
 		loginPanel.add(loginInfo);
 		loginPanel.add(textBox);
+		loginPanel.add(passwordLabel);
+		loginPanel.add(password);
 		loginPanel.add(messageLabel);
 
 
@@ -107,7 +118,7 @@ public class DressGui extends Composite{
 		vPanel = new VerticalPanel();
 		loginInfo = new Label("Ditt anv\u00e4ndarnam: ");
 		textBox = new TextBox();
-		btn1 = new Button("Logga in h\u00e4r");
+		loginButton = new Button("Logga in h\u00e4r");
 		imagesButton = new Button("Visa alla plagg");
 		messageLabel = new Label("");
 		calcLabel  = new Label ("Calc ");
@@ -126,6 +137,9 @@ public class DressGui extends Composite{
 		searchBox = new TextBox();
 		searchButton = new Button("S\u00f6k");
 		searchInfoLabel = new Label();
+		password = new PasswordTextBox();
+		passwordLabel = new Label("Ditt l\u00f6senord: ");
+		newUser = new Button("Skapa konto");
 
 	}
 
@@ -133,9 +147,8 @@ public class DressGui extends Composite{
 	public void updateGui(String message){
 		textBox.setVisible(false);
 		loginInfo.setVisible(false);
-		btn1.setVisible(false);
+		loginButton.setVisible(false);
 		messageLabel.setText(message);
-		currentUser.setName(textBox.getText()); 
 		getAllCategories();
 		imagesButton.setVisible(true);
 		searchLabel.setVisible(true);
@@ -216,12 +229,12 @@ public class DressGui extends Composite{
 			String available = "Detta plagg \u00e4r tyv\u00e4rr upptaget f\u00f6r n\u00e4rvarande";
 			userLabel.setText(available);
 		}else if(lu.getRate() > 2){
-			String yes = "Grattis " + lu.getName() + " du har betyg " + lu.getRate() + " och kan allts\u00e5 l\u00e5na plagget!";
+			String yes = "Grattis " + lu.getfName() + " du har betyg " + lu.getRate() + " och kan allts\u00e5 l\u00e5na plagget!";
 			userLabel.setText(yes);
 			currentDress.setAvailable(false);
 			dispayDressInfo(currentDress);
 		} else if (lu.getRate() <= 2){
-			String no = "Sorry " + lu.getName() + " du har betyg " + lu.getRate() + " och kan d\u00e4rf\u00f6r inte l\u00e5naplagget.";
+			String no = "Sorry " + lu.getfName() + " du har betyg " + lu.getRate() + " och kan d\u00e4rf\u00f6r inte l\u00e5naplagget.";
 			userLabel.setText(no);
 		}
 		vPanel.add(userLabel);
@@ -234,19 +247,22 @@ public class DressGui extends Composite{
 
 	public void setAllCategories(DressCategory cat) {
 
-
-
 		allCategories = cat.getDressCategoryList(); 		
 	}
 
+	public void displayLoginInfo(LibraryUser lu) {
+		// TODO Auto-generated method stub
+		
+	} 	
 
-	private class ButtonHandler implements ClickHandler {
+
+	private class LoginButtonHandler implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
 
-			dressServiceClientImpl.welcome(textBox.getText());		
-			dressServiceClientImpl.getAllCategories();
+			dressServiceClientImpl.login(textBox.getText(), password.getText());
+					
 		}
 
 	}
@@ -282,7 +298,7 @@ public class DressGui extends Composite{
 
 		@Override
 		public void onClick(ClickEvent event) {
-			dressServiceClientImpl.getUserInfo(currentUser.getName());
+			//dressServiceClientImpl.getUserInfo(currentUser.getfName());
 		}
 
 	}
@@ -304,7 +320,18 @@ public class DressGui extends Composite{
 			}
 		}
 
-	} 	
+	}
+	
+	private class NewUserHandler implements ClickHandler {
 
+		@Override
+		public void onClick(ClickEvent event) {
+			DressLibrary.viewCreateNewUserGui();
+		
+		}
+		
+	}
+
+	
 }
 

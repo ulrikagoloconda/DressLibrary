@@ -17,29 +17,10 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import MySQLDatabase.DBConnection;
 
 public class DressServerImpl extends RemoteServiceServlet implements DressService{
+
 	DBConnection con = new DBConnection();
-	
 
 	Map<Integer, String> idPathMap;
-	@Override
-	public String welcome(String name) {
-		try {
-			con.connectToDB();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		}
-		return "Välkommen till Dress Library  " + name +"!"; 
-	}
-
-	@Override
-	public int calcualte(int num1, int num2) {
-		return num1 + num2; 
-	}
-
 
 
 	@Override
@@ -50,7 +31,7 @@ public class DressServerImpl extends RemoteServiceServlet implements DressServic
 			FakeDatabase.initDresses();
 			System.out.println("I GetDressInfo if null");
 
-			
+
 		}
 		for(DressInfo info : FakeDatabase.getInfoList()){
 			System.out.println("I info " + info.getCategory() + " " + info.getImageID());
@@ -95,26 +76,6 @@ public class DressServerImpl extends RemoteServiceServlet implements DressServic
 		idPathMap.put(14,"images/tröja6.jpg");
 	}
 
-	@Override
-	public LibraryUser getUserInfo(String name){
-		LibraryUser returnUser = new LibraryUser();
-		boolean exist = false; 
-		if(FakeDatabase.getUsers()== null){
-			FakeDatabase.initUsers();
-		}
-		for(LibraryUser user : FakeDatabase.getUsers())	{
-			if(user.getName().equals(name)){
-				returnUser = user; 
-				exist= true;
-			}
-		}
-
-		if(!exist){
-			LibraryUser newUser = new LibraryUser(name);
-			returnUser =  newUser; 
-		}
-		return returnUser;
-	}
 
 	@Override
 	public DressCategory getAllCategories() {
@@ -123,7 +84,6 @@ public class DressServerImpl extends RemoteServiceServlet implements DressServic
 
 	@Override
 	public DressImages getSelectedDressImages(String s) {
-		System.out.println(s +" hhhh hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
 		Map<Integer, String> localMap = new HashMap<>();
 		DressImages returnImages = new DressImages();
 		FakeDatabase.initDresses();
@@ -139,5 +99,39 @@ public class DressServerImpl extends RemoteServiceServlet implements DressServic
 
 		returnImages.setIdPathList(localMap);
 		return returnImages; 
+	}
+
+	@Override
+	public LibraryUser logIn(String userName, String password) {
+		LibraryUser lu = null; 
+		try {
+			con.connectToDB();
+			lu =  con.loginQ(userName,password);
+			System.out.println("login userid" + lu.getUserID());
+			
+			return lu;
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		return lu; 
+	}
+
+	@Override
+	public int calcualte(int num1, int num2) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public LibraryUser createNewUser(LibraryUser lu, String password) {
+		try {
+			con.connectToDB();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return con.createNewUser(lu, password);
 	}
 }
