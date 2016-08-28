@@ -21,4 +21,13 @@
     <welcome-file>DressLibrary.html</welcome-file>
   </welcome-file-list>
 
+ <servlet>
+    <servlet-name>fileUploaderServlet</servlet-name>
+    <servlet-class>com.dresslibrary.server.FileUpload</servlet-class>
+</servlet>
+<servlet-mapping>
+  <servlet-name>fileUploaderServlet</servlet-name>
+  <url-pattern>/dresslibrary/fileupload</url-pattern>
+</servlet-mapping>
+
 </web-app>

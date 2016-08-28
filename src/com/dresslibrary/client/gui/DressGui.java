@@ -53,6 +53,7 @@ public class DressGui extends Composite{
 	private PasswordTextBox password; 
 	private Label passwordLabel; 
 	private Button newUser; 
+	private Button addDress; 
 	
 	public DressGui(DressServiceClientImpl dressServiceClientImpl){
 		initGui();
@@ -72,6 +73,7 @@ public class DressGui extends Composite{
 		getButton.addClickHandler(new LendHandler());
 		searchButton.addClickHandler(new SearchHandler());
 		newUser.addClickHandler(new NewUserHandler() );
+		addDress.addClickHandler(new AddDressToLibraryHandler());
 
 
 
@@ -89,6 +91,9 @@ public class DressGui extends Composite{
 		searchLabel.setStyleName("overallText");
 		searchInfoLabel.setStyleName("overallText");
 		passwordLabel.setStyleName("overallText");
+		newUser.setStyleName("buttonClass");
+		addDress.setStyleName("buttonClass");
+		
 
 
 		loginPanel.add(loginInfo);
@@ -111,6 +116,7 @@ public class DressGui extends Composite{
 		searchPanel.add(searchBox);
 		searchPanel.add(searchButton);
 		searchPanel.add(searchInfoLabel);
+		searchPanel.add(addDress);
 	}
 
 
@@ -140,6 +146,7 @@ public class DressGui extends Composite{
 		password = new PasswordTextBox();
 		passwordLabel = new Label("Ditt l\u00f6senord: ");
 		newUser = new Button("Skapa konto");
+		addDress = new Button("L\u00e4gg till plagg till bibliotek");
 
 	}
 
@@ -251,8 +258,19 @@ public class DressGui extends Composite{
 	}
 
 	public void displayLoginInfo(LibraryUser lu) {
-		// TODO Auto-generated method stub
-		
+		currentUser = lu; 
+		textBox.setVisible(false);
+		loginInfo.setVisible(false);
+		loginButton.setVisible(false);
+		newUser.setVisible(false);
+		passwordLabel.setVisible(false);
+		password.setVisible(false);
+		messageLabel.setText("V\u00e4lkommen " + lu.getfName()+ "!");
+		getAllCategories();
+		imagesButton.setVisible(true);
+		searchLabel.setVisible(true);
+		searchBox.setVisible(true);
+		searchButton.setVisible(true);
 	} 	
 
 
@@ -298,11 +316,20 @@ public class DressGui extends Composite{
 
 		@Override
 		public void onClick(ClickEvent event) {
-			//dressServiceClientImpl.getUserInfo(currentUser.getfName());
+			Image i = (Image)event.getSource();
+			i.setStyleName("clickedImage");
+			for(Entry<Integer, Image> entry : imageIDMap.entrySet()){
+				if(entry.getValue().equals(i)){
+					entry.getKey();
+					
+				}
+			}
+			
+			dressServiceClientImpl.loanEnquiry(currentUser);
 		}
-
 	}
 
+	
 	private class SearchHandler implements ClickHandler {
 
 		@Override
@@ -328,6 +355,15 @@ public class DressGui extends Composite{
 		public void onClick(ClickEvent event) {
 			DressLibrary.viewCreateNewUserGui();
 		
+		}
+		
+	}
+	
+	private class AddDressToLibraryHandler implements ClickHandler {
+
+		@Override
+		public void onClick(ClickEvent event) {
+			DressLibrary.viewAddDressGui();
 		}
 		
 	}

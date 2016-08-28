@@ -2,6 +2,7 @@ package com.dresslibrary.client.service;
 
 import java.util.ArrayList;
 
+import com.dresslibrary.client.gui.AddDressGui;
 import com.dresslibrary.client.gui.CreateUserGui;
 import com.dresslibrary.client.gui.DressGui;
 import com.dresslibrary.client.model.DressCategory;
@@ -17,7 +18,8 @@ import com.google.gwt.user.client.ui.Widget;
 public class DressServiceClientImpl implements DressServiceClient{
 	private DressServiceAsync service; 
 	private DressGui gui; 
-	private CreateUserGui newUserGui; 
+	private CreateUserGui newUserGui;
+	//private AddDressGui addDressGui; 
 
 	public DressServiceClientImpl(String url){
 		System.out.println("Url: " + url);
@@ -26,6 +28,10 @@ public class DressServiceClientImpl implements DressServiceClient{
 		endPoint.setServiceEntryPoint(url);
 		gui = new DressGui(this);
 		newUserGui = new CreateUserGui(this);
+		Window.alert("Är det här nånstans somd et blir ");
+		//addDressGui = new AddDressGui(this);
+		Window.alert("efter  ");
+
 	}
 
 	public DressServiceClientImpl(){
@@ -60,6 +66,11 @@ public class DressServiceClientImpl implements DressServiceClient{
 	
 	public Widget getCreateNewUserGui() {
 		return newUserGui;
+	}
+	
+	public Widget getAddDressGui() {
+		//return addDressGui;
+		return null;
 	}
 	
 	public void createNewUser(LibraryUser lu, String text) {
@@ -100,6 +111,11 @@ public class DressServiceClientImpl implements DressServiceClient{
 		
 	}
 
+	
+	public void loanEnquiry(LibraryUser currentUser) {
+		
+	}
+	
 	private class DressCallback implements AsyncCallback {
 
 		@Override
@@ -131,11 +147,6 @@ public class DressServiceClientImpl implements DressServiceClient{
 	}
 
 	
-
-	
-
-	
-
 
 }
 
