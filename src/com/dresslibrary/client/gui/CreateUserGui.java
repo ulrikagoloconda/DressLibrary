@@ -5,12 +5,12 @@ import com.dresslibrary.client.model.LibraryUser;
 import com.dresslibrary.client.service.DressServiceClientImpl;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -34,15 +34,14 @@ public class CreateUserGui extends Composite{
 	private Button createButton; 
 	private Button confermButton; 
 	
-	private Button submit; 
-	
-	private FormPanel AddDressGui; 
+
 	
 	public CreateUserGui(DressServiceClientImpl dressServiceClientImpl){
+
 		initCreateGui();
+
 		initWidget(this.mainPanel);
 		this.dressServiceClientImpl = dressServiceClientImpl; 
-
 
 		mainPanel.add(userNameLabel);
 		mainPanel.add(userNameBox);
@@ -59,8 +58,7 @@ public class CreateUserGui extends Composite{
 		mainPanel.add(passwordBox);
 		mainPanel.add(createButton);
 		
-		mainPanel.add(AddDressGui);
-		mainPanel.add(submit);
+	
 
 	}
 
@@ -78,20 +76,12 @@ public class CreateUserGui extends Composite{
 		passwordLabel = new Label("L\u00f6senord: ");
 		createButton = new Button("Skapa kontot");
 		confermButton = new Button("Ok!");
-		AddDressGui = new AddDressGui(dressServiceClientImpl);
-		submit = new Button("Ladda upp");
+		
 		
 		
 		createButton.addClickHandler(new CreateButtonHandler());
 		confermButton.addClickHandler(new ConfirmHandler());
-		submit.addClickHandler(new ClickHandler(){
-
-			@Override
-			public void onClick(ClickEvent event) {
-				AddDressGui.submit();
-			}
-			
-		});
+	
 
 		userNameBox.setStyleName("textBox");
 		fNameBox.setStyleName("textBox");

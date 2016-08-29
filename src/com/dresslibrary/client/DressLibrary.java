@@ -31,15 +31,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class DressLibrary implements EntryPoint {
 	private static DressServiceClientImpl serviceClient;   
-	//private  DressServiceClientImpl dressServiceClientImpl;
-	private static VerticalPanel mainPanel;
-	private static FormPanel form;
-	private static TextBox sizeBox; 
-	private static ListBox categoryBox; 
-
-	private static FileUpload upload; 
-	private static Button submit; 
-
 
 
 	public void onModuleLoad() {

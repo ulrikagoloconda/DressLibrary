@@ -109,6 +109,7 @@ public class DressGui extends Composite{
 		imagesButton.setVisible(false);
 		dressInfoLabel.setVisible(false);
 		searchInfoLabel.setVisible(false);
+		addDress.setVisible(false);
 
 
 		searchPanel.add(imagesButton);
@@ -271,6 +272,8 @@ public class DressGui extends Composite{
 		searchLabel.setVisible(true);
 		searchBox.setVisible(true);
 		searchButton.setVisible(true);
+		addDress.setVisible(true);
+
 	} 	
 
 
@@ -365,7 +368,7 @@ public class DressGui extends Composite{
 		public void onClick(ClickEvent event) {
 			DressLibrary.viewAddDressGui();
 		}
-		
+
 	}
 
 	

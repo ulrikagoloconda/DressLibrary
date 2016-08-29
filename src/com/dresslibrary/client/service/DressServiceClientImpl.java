@@ -19,7 +19,7 @@ public class DressServiceClientImpl implements DressServiceClient{
 	private DressServiceAsync service; 
 	private DressGui gui; 
 	private CreateUserGui newUserGui;
-	//private AddDressGui addDressGui; 
+	private AddDressGui addDressGui; 
 
 	public DressServiceClientImpl(String url){
 		System.out.println("Url: " + url);
@@ -27,10 +27,11 @@ public class DressServiceClientImpl implements DressServiceClient{
 		ServiceDefTarget endPoint = (ServiceDefTarget) this.service; 
 		endPoint.setServiceEntryPoint(url);
 		gui = new DressGui(this);
+
 		newUserGui = new CreateUserGui(this);
-		Window.alert("Är det här nånstans somd et blir ");
-		//addDressGui = new AddDressGui(this);
-		Window.alert("efter  ");
+
+		addDressGui = new AddDressGui(this);
+
 
 	}
 
@@ -69,8 +70,7 @@ public class DressServiceClientImpl implements DressServiceClient{
 	}
 	
 	public Widget getAddDressGui() {
-		//return addDressGui;
-		return null;
+		return addDressGui;
 	}
 	
 	public void createNewUser(LibraryUser lu, String text) {
