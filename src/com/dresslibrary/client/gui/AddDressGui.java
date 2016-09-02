@@ -13,19 +13,15 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class AddDressGui extends Composite{
 	private DressServiceClientImpl dressServiceClientImpl; 
-	private static String fileNameString; 
 	private AddDressForm addForm;
 	private Button submit; 
-	private VerticalPanel mainPanel; 
+	
+	private static VerticalPanel mainPanel; 
 	private Button okButton; 
-	private Label fileNameLabel; 
-	private static TextBox fileName; 
+	
 	public AddDressGui(DressServiceClientImpl dressServiceClientImpl){
 		this.dressServiceClientImpl = dressServiceClientImpl;
-Window.alert("först");
 		initAddDressGui();
-		Window.alert("efter");
-
 		initWidget(this.mainPanel);
 
 	}
@@ -33,22 +29,17 @@ Window.alert("först");
 	public void initAddDressGui(){
 		mainPanel = new VerticalPanel();
 		addForm = new AddDressForm();
-		Window.alert("hit också ");
+		
 		submit = new Button("Ladda upp");
 		okButton = new Button("Ok");
-		fileName = new TextBox();
-		fileNameLabel = new Label("Filnamn");
-		
-		
-		mainPanel.add(fileNameLabel);
-		mainPanel.add(fileName);
 		mainPanel.add(addForm);
 		mainPanel.add(submit);
 		mainPanel.add(okButton);
 		
 		submit.addStyleName("buttonClass");
 		okButton.addStyleName("buttonClass");
-
+		
+okButton.setEnabled(false);
 		okButton.addClickHandler(new ClickHandler(){
 
 			@Override
@@ -69,10 +60,6 @@ Window.alert("först");
 		
 	}	
 	
-	public static String getFileName(){
-		fileNameString = fileName.getText();
-		return fileNameString; 
-		
-	}
+	
 }
 

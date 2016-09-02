@@ -2,6 +2,7 @@ package com.dresslibrary.client.service;
 
 import java.util.ArrayList;
 
+import com.dresslibrary.client.gui.AddDressForm;
 import com.dresslibrary.client.gui.AddDressGui;
 import com.dresslibrary.client.gui.CreateUserGui;
 import com.dresslibrary.client.gui.DressGui;
@@ -20,6 +21,7 @@ public class DressServiceClientImpl implements DressServiceClient{
 	private DressGui gui; 
 	private CreateUserGui newUserGui;
 	private AddDressGui addDressGui; 
+	private AddDressForm addDressForm;
 
 	public DressServiceClientImpl(String url){
 		System.out.println("Url: " + url);
@@ -31,7 +33,8 @@ public class DressServiceClientImpl implements DressServiceClient{
 		newUserGui = new CreateUserGui(this);
 
 		addDressGui = new AddDressGui(this);
-
+		
+	
 
 	}
 

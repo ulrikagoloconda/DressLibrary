@@ -1,5 +1,6 @@
 package MySQLDatabase;
 
+import java.io.ByteArrayInputStream;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,10 +19,12 @@ public class DBConnection {
 	
 	
 	public void connectToDB() throws ClassNotFoundException, SQLException{
+		System.out.println("Detta körs i dbva");
 		try{
 			myCon = DriverManager.getConnection("jdbc:mysql://localhost:3306/dresslibrary", "root", "Forfattare1");
 			statment = myCon.createStatement();
-			
+			System.out.println("Detta körs i dbva");
+
 		}catch(Exception e){
 			System.out.println("Error i con");
 			e.printStackTrace();
@@ -108,9 +111,31 @@ public class DBConnection {
 		try{
 			String sql = "INSERT INTO dressImages()";
 			PreparedStatement ps = myCon.prepareStatement(sql);
+			ps.executeUpdate();
+			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+	}
+	
+	public int insertIntoDressImage(ByteArrayInputStream inputStream, String fileName){
+		System.out.println("Detta körs i insertimage");
+		int i = 0; 
+
+		try{
+			String sql = "INSERT INTO dressimage (file, fileName) VALUES (?,?)";
+			
+			PreparedStatement ps = myCon.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+			ps.setBinaryStream(1, inputStream);
+			ps.setString(2, fileName);
+			int x = ps.executeUpdate();
+		
+			
+			
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+		return i;
 	}
 
 	

@@ -16,10 +16,7 @@
     <url-pattern>/dresslibrary/dresservice</url-pattern>
   </servlet-mapping>
   
-  <!-- Default page to serve -->
-  <welcome-file-list>
-    <welcome-file>DressLibrary.html</welcome-file>
-  </welcome-file-list>
+
 
  <servlet>
     <servlet-name>fileUploaderServlet</servlet-name>
@@ -29,5 +26,12 @@
   <servlet-name>fileUploaderServlet</servlet-name>
   <url-pattern>/dresslibrary/fileupload</url-pattern>
 </servlet-mapping>
+
+
+
+  <!-- Default page to serve -->
+  <welcome-file-list>
+    <welcome-file>DressLibrary.html</welcome-file>
+  </welcome-file-list>
 
 </web-app>

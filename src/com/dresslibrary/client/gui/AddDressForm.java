@@ -16,19 +16,12 @@ public class AddDressForm extends FormPanel{
 
 
 	public AddDressForm(){
-		Window.alert("vad händer i addDressForm");
 		initGui();
-		Window.alert("vad händer i addDressForm");
 		
 		this.setAction(GWT.getModuleBaseURL()+"fileupload");
 		this.setEncoding(FormPanel.ENCODING_MULTIPART);
 		this.setMethod(FormPanel.METHOD_POST);
-		
-
-		//upload.setName(AddDressGui.getFileName());
 		this.add(upload);
-		Window.alert("vad händer i addDressForm");
-
 		addSubmitHandler();
 
 	
@@ -37,6 +30,7 @@ public class AddDressForm extends FormPanel{
 
 		public void initGui(){
 			upload = new FileUpload();
+			upload.setName("Temp");
 		}
 
 		public void addSubmitHandler(){
@@ -46,7 +40,7 @@ public class AddDressForm extends FormPanel{
 				@Override
 				public void onSubmit(SubmitEvent event) {
 
-					if (10<5) {
+					if (5>10) {
 						event.cancel();
 					}
 				}
@@ -57,6 +51,7 @@ public class AddDressForm extends FormPanel{
 
 				@Override
 				public void onSubmitComplete(SubmitCompleteEvent event) {
+					Window.alert("filenamnet " + upload.getName());
 					Window.alert(event.getResults());
 
 				}
