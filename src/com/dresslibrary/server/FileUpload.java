@@ -56,12 +56,12 @@ System.out.println("Körs detta i doPost");
 					}
 					
 				byte[] byteArray=out.toByteArray();
-				//Test.fromByteArrayToFIle(byteArray, item.getName());
 				ByteArrayInputStream inputStream = new ByteArrayInputStream(byteArray);
 				System.out.println("Körs detta efter byteArrayinput");
 				db.connectToDB();
 				 int i = db.insertIntoDressImage(inputStream, item.getName());
 				 System.out.println(i + " genererat id");
+				 request.setAttribute(""+i, new Object());
 				}
 			}
 			catch(Exception e){
@@ -69,5 +69,6 @@ System.out.println("Körs detta i doPost");
 			}
 
 		}
+		
 	}
 }

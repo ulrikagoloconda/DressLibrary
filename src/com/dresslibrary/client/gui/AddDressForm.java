@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.TextBox;
 public class AddDressForm extends FormPanel{
 	private DressServiceClientImpl dressServiceClientImpl;
 	private FileUpload upload; 
-	private String tempName; 
+	private String fileName; 
 
 
 	public AddDressForm(){
@@ -31,6 +31,7 @@ public class AddDressForm extends FormPanel{
 		public void initGui(){
 			upload = new FileUpload();
 			upload.setName("Temp");
+			
 		}
 
 		public void addSubmitHandler(){
@@ -51,8 +52,9 @@ public class AddDressForm extends FormPanel{
 
 				@Override
 				public void onSubmitComplete(SubmitCompleteEvent event) {
-					Window.alert("filenamnet " + upload.getName());
-					Window.alert(event.getResults());
+					fileName = upload.getFilename();
+					Window.alert("event get Results "+event.getResults());
+					event.getResults();
 
 				}
 
@@ -61,14 +63,12 @@ public class AddDressForm extends FormPanel{
 		}
 
 
-		public String getTempName() {
-			return tempName;
+		public String getFileName() {
+			return fileName;
 		}
 
 
-		public void setTempName(String tempName) {
-			this.tempName = tempName;
-		}
+
 		
 	}
 	
